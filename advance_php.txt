@@ -1,0 +1,817 @@
+Module 2 – Advanced PHP Excercises
+OOPs Concepts
+THEORY EXERCISE: 
+1. Define Object-Oriented Programming (OOP) and its four main principles: Encapsulation, Inheritance, Polymorphism, and Abstraction.
+Ans. Object-Oriented Programming (OOP) is a programming paradigm built around the concept of "objects". 
+In OOP, objects bundle together data (attributes) and the methods (functions) that operate on that data. 
+This approach focuses on modularity and reusability, leading to the creation of organized, maintainable, and scalable software systems. 
+OOP is founded on four core principles, often called the pillars of OOP: 
+
+1. Encapsulation
+Encapsulation involves bundling data and the methods that operate on that data into a single unit, known as an object. 
+It essentially creates a protective layer around an object, shielding its internal workings from external entities. 
+This promotes data integrity and security by controlling access to the object's internal state. 
+Imagine a car where the engine, transmission, and braking system are housed within the car's body. 
+You interact with the car using its controls (steering wheel, pedals), but you don't need to understand the inner workings of each component to drive it. 
+This is akin to how encapsulation hides complex implementation details, exposing only the necessary functionalities through methods. 
+
+2. Inheritance
+Inheritance allows a new class to inherit attributes and behaviors from an existing class, promoting code organization and reuse. 
+This creates a hierarchy where derived classes gain the properties and methods of the base class. 
+
+3. Polymorphism
+Meaning "many forms", polymorphism in OOP allows objects of different types to be treated as instances of a common superclass. 
+This enhances flexibility by enabling code to work with various object types. 
+
+4. Abstraction
+Abstraction simplifies complex systems by focusing on essential features and hiding unnecessary details. 
+It provides a high-level view of an object, outlining what it does without revealing how it works. 
+This principle improves code readability and maintainability. 
+
+
+Practical Exercise:
+Create a simple class in PHP that demonstrates encapsulation by using private and public properties and methods.
+
+<?php
+
+class Person {
+    // Private property (hidden from outside)
+    private $name;
+
+    // Public method to set the name
+    public function setName($newName) {
+        $this->name = $newName;
+    }
+
+    // Public method to get the name
+    public function getName() {
+        return $this->name;
+    }
+}
+
+// Using the class
+$person = new Person();
+$person->setName("Gargi");
+echo "Name: " . $person->getName();
+
+?>
+2. Class
+A class is a blueprint for creating objects. It defines properties (variables) and methods (functions) that the object will have.
+A class is defined using the class keyword.
+You create objects (instances) from the class using new.
+
+THEORY EXERCISE:
+3. Explain the structure of a class in PHP, including properties and methods. 
+A PHP class typically includes:
+Class Declaration – using the class keyword.
+Properties – variables that hold data (also called attributes).
+Methods – functions inside the class that define behavior.
+Access Modifiers – control visibility (public, private, protected).
+Constructor (optional) – initializes values when an object is created.
+Objects – instances of the class created using new
+
+Practical Exercise:
+Write a PHP script to create a class representing a "Car" with properties like make, model, and year, and a method to display the car details. 
+
+<?php
+
+class Car {
+    // Properties
+    public $make;
+    public $model;
+    public $year;
+
+    // Constructor to initialize properties
+    public function __construct($make, $model, $year) {
+        $this->make = $make;
+        $this->model = $model;
+        $this->year = $year;
+    }
+
+    // Method to display car details
+    public function CarDetails() {
+        echo "Your car is a $this->make, model is $this->model, and the year of the car is $this->year.";
+    }
+}
+
+// Creating object and calling method
+$details = new Car("Honda", "Creta", 2024);
+$details->CarDetails();
+
+?>
+Object
+THEORY EXERCISE:
+What is an object in OOP? Discuss how objects are instantiated from classes in PHP. 
+In Object-Oriented Programming (OOP), an object is a real-world entity created from a class. 
+A class is like a blueprint or template, and an object is the actual instance of that blueprint with real data.
+1. Define a class (the blueprint)
+2. Use new keyword to create an object from the class
+3. Access properties and methods using the object
+
+Practical Exercise:
+Instantiate multiple objects of the "Car" class and demonstrate how to access their properties and methods.
+<?php
+
+class Car {
+    public $make;
+    public $model;
+    public $year;
+
+    // Constructor to initialize car details
+    public function __construct($make, $model, $year) {
+        $this->make = $make;
+        $this->model = $model;
+        $this->year = $year;
+    }
+
+    // Method to display car details
+    public function displayDetails() {
+        echo "Car: $this->make, Model: $this->model, Year: $this->year<br>";
+    }
+}
+
+// Instantiate multiple objects
+$car1 = new Car("Toyota", "Fortuner", 2023);
+$car2 = new Car("Hyundai", "Creta", 2024);
+$car3 = new Car("Honda", "City", 2022);
+
+//Access their methods
+$car1->displayDetails();
+$car2->displayDetails();
+$car3->displayDetails();
+
+?>
+Extends
+THEORY EXERCISE:
+Explain the concept of inheritance in OOP and how it is implemented in PHP. 
+nheritance is a key concept in Object-Oriented Programming (OOP). It allows a class (child or subclass) to inherit properties and methods from another class (parent or base class).
+Why Use Inheritance?
+Reuse existing code
+Avoid duplication
+Promote modular design and extension
+How Inheritance Works in PHP
+Use the extends keyword to inherit from another class.
+The child class can access all public and protected members of the parent.
+The child class can also override methods of the parent.
+
+
+
+
+
+Practical Exercise:
+Create a "Vehicle" class and extend it with a "Car" class. Include properties and methods inboth classes, demonstrating inherited behavior.
+
+class Vehicle{
+public $brand;
+
+public function start()
+{
+echo "$this->brand is starting...";
+}
+}
+class Car extends Vehicle{
+public $model;
+
+public function ShowModel(){
+ echo "Brand: $this->brand, Model: $this->model";
+ }
+ 
+ }
+ 
+ $myCar = new Car();
+ $myCar->brand = "Honda";
+ $myCar->model = "Creta";
+ 
+ $myCar->start();
+ $myCar->ShowModel();
+ 
+ Overloading
+THEORY EXERCISE:
+Discuss method overloading and how it is implemented in PHP. 
+Method Overloading in OOP means defining multiple methods with the same name but different parameters (number or type).
+It allows a method to perform different tasks based on how it is called.
+
+Practical Exercise:
+Create a class that demonstrates method overloading by defining multiple methods with the same name but different parameters.
+<?php
+
+class Greeting {
+    public function __call($name, $arguments) {
+        if ($name === "greet") {
+            if (count($arguments) === 1) {
+                echo "Hello, " . $arguments[0] . "!<br>";
+            } elseif (count($arguments) === 2) {
+                echo "Hello, " . $arguments[0] . " " . $arguments[1] . "!<br>";
+            } else {
+                echo "Hello, Guest!<br>";
+            }
+        }
+    }
+}
+
+// Create object
+$greet = new Greeting();
+
+// Call the overloaded method with different arguments
+$greet->greet("Gargi");           // 1 argument
+$greet->greet("Gargi", "Godia");  // 2 arguments
+$greet->greet();                  // 0 arguments
+
+?>
+
+Abstraction Interface
+
+THEORY EXERCISE:
+Explain the concept of abstraction and the use of interfaces in PHP.
+Abstraction is one of the core principles of Object-Oriented Programming (OOP). It means hiding the complex internal logic of a class and showing only the necessary features to the user.
+
+Why Use Abstraction?
+Focus on what an object does, not how it does it.
+Helps in reducing complexity.
+Makes code easier to maintain and extend.
+
+How Abstraction Works in PHP
+In PHP, abstraction is achieved using:
+Abstract Classes
+Interfaces
+1. Abstract Class
+Cannot be instantiated directly.
+Can contain both defined and abstract (undefined) methods.
+Must be extended by another class.
+
+Practical Exercise: 
+Define an interface named VehicleInterface with methods like start(), stop(), andimplement this interface in multiple classes.
+<?php
+
+// Step 1: Define the interface
+interface VehicleInterface {
+    public function start();
+    public function stop();
+}
+
+// Step 2: Implement interface in Car class
+class Car implements VehicleInterface {
+    public function start() {
+        echo "Car is starting...<br>";
+    }
+
+    public function stop() {
+        echo "Car has stopped.<br>";
+    }
+}
+
+// Step 3: Implement interface in Bike class
+class Bike implements VehicleInterface {
+    public function start() {
+        echo "Bike is starting...<br>";
+    }
+
+    public function stop() {
+        echo "Bike has stopped.<br>";
+    }
+}
+
+// Step 4: Create and use objects
+$car = new Car();
+$car->start();
+$car->stop();
+
+echo "<br>";
+
+$bike = new Bike();
+$bike->start();
+$bike->stop();
+
+?>
+Constructor
+THEORY EXERCISE: 
+What is a constructor in PHP? Discuss its purpose and how it is used. 
+A constructor is a special method in a class that automatically runs when an object is created. 
+It is used to initialize properties or perform setup tasks.
+Syntax of Constructor in PHP
+
+public function __construct() {
+    // Code to initialize object
+}
+Purpose of a Constructor
+Automatically initializes object properties
+Reduces the need to call a separate method after object creation
+Makes code cleaner, shorter, and more readable
+
+Practical Exercise: 
+Create a class with a constructor that initializes properties when an object is created.
+
+class Car{
+public $model;
+public $Year;
+
+public function __construct($model,$year){
+
+$this->model=$model;
+$this->year=$year;
+}
+
+public function showDetails(){
+echo "Your car model is $this->model and year $this->year";
+}
+}
+
+$CarDetails = new Car("Creta", 2024);
+$CarDetails->showDetails();
+
+Destructor
+THEORY EXERCISE:
+Explain the role of a destructor in PHP and when it is called. 
+A destructor is a special method in a PHP class that is automatically called when an object is destroyed 
+(i.e., goes out of scope or the script ends).
+ Syntax of Destructor in PHP
+
+public function __destruct() {
+    // cleanup code
+}
+
+Practical Exercise:
+Write a class that implements a destructor to perform cleanup tasks when an object is destroyed.
+<?php
+
+class Test {
+    public function __construct() {
+        echo "Object is created.<br>";
+    }
+
+    public function sayHello() {
+        echo "Hello from object.<br>";
+    }
+
+    public function __destruct() {
+        echo "Object is destroyed.<br>";
+    }
+}
+
+// Create an object
+$obj = new Test();
+$obj->sayHello();
+
+?>
+Magic Methods
+THEORY EXERCISE:
+Define magic methods in PHP. Discuss commonly used magic methods like __get(), __set(), and __construct().
+Magic methods in PHP are special methods that start with 
+double underscores (__) and are automatically triggered by certain actions or behaviors in your code.
+They are used to handle:
+Object creation/destruction
+Accessing or setting inaccessible (private/protected) properties
+Method overloading
+Object cloning
+Debug info, etc
+Commonly Used Magic Methods
+Magic Method			Purpose
+__construct()			Called automatically when an object is created (constructor)
+__destruct()			Called automatically when an object is destroyed
+__get($name)			Called when accessing a non-existing or inaccessible property
+__set($name, $value)	Called when setting a non-existing or inaccessible property
+__call()				Called when invoking undefined or inaccessible methods
+__toString()			Called when an object is used as a string
+__isset() / __unset()	Called when using isset() or unset() on inaccessible properties
+
+Practical Exercise:
+Create a class that uses magic methods to handle property access and modificationdynamically.
+<?php
+
+class Person {
+    private $data = [];
+
+    public function __set($name, $value) {
+        $this->data[$name] = $value;
+    }
+
+    public function __get($name) {
+        return $this->data[$name] ?? "Not set";
+    }
+}
+
+// Create object
+$p = new Person();
+
+// Set properties
+$p->name = "Ayansh";
+$p->age = 25;
+
+// Get properties
+echo $p->name . "<br>";  // Output: Ayansh
+echo $p->age . "<br>";   // Output: 25
+echo $p->email;          // Output: Not set
+
+?>
+Scope Resolution
+THEORY EXERCISE:
+Explain the scope resolution operator (::) and its use in PHP. 
+The scope resolution operator (::) in PHP is also known as the Paamayim Nekudotayim (Hebrew for "double colon").
+It is used to access static properties, static methods, and constants of a class without creating an object.
+Common Uses of ::
+Use Case							Syntax Example
+Accessing static properties			ClassName::$property
+Calling static methods				ClassName::method()
+Accessing class constants			ClassName::CONSTANT_NAME
+Referencing parent methods			parent::methodName()
+Referencing current class (self)	self::methodName()
+
+Practical Exercise:
+
+Create a class with static properties and methods, and demonstrate their access using thescope resolution operator.
+<?php
+
+class Calculator {
+    // Static property
+    public static $name = "Simple Calculator";
+
+    // Static method
+    public static function add($a, $b) {
+        return $a + $b;
+    }
+}
+
+// Access static property
+echo Calculator::$name . "<br>";
+
+// Access static method
+echo "Sum: " . Calculator::add(10, 20);
+
+?>
+Traits
+THEORY EXERCISE:
+Define traits in PHP and their purpose in code reuse. 
+Traits in PHP are a mechanism for code reuse in single inheritance languages like PHP.
+PHP does not support multiple inheritance, i.e., a class cannot extend more than one class.
+Traits help solve this by allowing methods to be reused in multiple classes, without inheritance.
+
+Purpose of Traits
+Reuse common functionality across multiple classes.
+Avoid code duplication.
+Allow horizontal reuse (sharing code across unrelated classes).
+
+Practical Exercise: 
+Create two traits and use them in a class to demonstrate how to include multiple behaviors.
+<?php
+// First trait
+trait Logger {
+    public function log($message) {
+        echo "Log: $message<br>";
+    }
+}
+
+// Second trait
+trait Notifier {
+    public function notify($user) {
+        echo "Notification sent to $user<br>";
+    }
+}
+
+// Class using both traits
+class UserManager {
+    use Logger, Notifier;
+
+    public function createUser($username) {
+        echo "Creating user: $username<br>";
+        $this->log("User '$username' created.");
+        $this->notify($username);
+    }
+}
+
+// Create object and call method
+$user = new UserManager();
+$user->createUser("gargi");
+?>
+Visibility
+THEORY EXERCISE:
+Discuss the visibility of properties and methods in PHP (public, private, protected). 
+In PHP, visibility controls how properties and methods of a class can be accessed. It is used to implement encapsulation, a core concept of OOP.
+1. public
+Accessible from anywhere (inside the class, outside the class, or in subclasses).
+public $name;
+
+2. private
+Accessible only within the same class.
+Not accessible in child classes or from outside.
+private $password;
+
+3. protected
+Accessible within the class and by classes derived from it (subclasses).
+Not accessible from outside the class.
+protected $email;
+
+Practical Exercise:
+Write a class that shows examples of each visibility type and how they restrict access toproperties and methods.
+<?php
+class Person {
+    public $name = "Ayansh";         // Public property
+    protected $email = "ayansh@gmail.com"; // Protected property
+    private $age = 22;              // Private property
+
+    public function showPublic() {
+        echo "Public Method: Name = $this->name<br>";
+    }
+
+    protected function showProtected() {
+        echo "Protected Method: Email = $this->email<br>";
+    }
+
+    private function showPrivate() {
+        echo "Private Method: Age = $this->age<br>";
+    }
+
+    public function accessAll() {
+        // Accessing all inside the class
+        $this->showPublic();
+        $this->showProtected();
+        $this->showPrivate();
+    }
+}
+
+class Employee extends Person {
+    public function accessFromChild() {
+        echo "Accessing from child class:<br>";
+        echo "Name: $this->name<br>";           // ✅ Allowed
+        echo "Email: $this->email<br>";         // ✅ Allowed
+        // echo "Age: $this->age<br>";          // ❌ Not allowed (private)
+
+        $this->showPublic();                    // ✅ Allowed
+        $this->showProtected();                 // ✅ Allowed
+        // $this->showPrivate();                // ❌ Not allowed (private)
+    }
+}
+
+// Create object
+$obj = new Person();
+echo "<h4>From Object:</h4>";
+echo "Name: $obj->name<br>";                   // ✅ Allowed
+// echo "Email: $obj->email<br>";              // ❌ Not allowed
+// echo "Age: $obj->age<br>";                  // ❌ Not allowed
+
+$obj->showPublic();                            // ✅ Allowed
+// $obj->showProtected();                      // ❌ Not allowed
+// $obj->showPrivate();                        // ❌ Not allowed
+
+echo "<h4>Calling method that accesses all:</h4>";
+$obj->accessAll();                             // ✅ Allowed (called inside class)
+
+echo "<h4>From Child Class:</h4>";
+$emp = new Employee();
+$emp->accessFromChild();                       // ✅ Allowed (for public/protected)
+?>
+
+Extra Practical:
+Practical Exercise:
+o Develop a class hierarchy for a simple e-commerce systemwith classes likeProduct, Category, and Order. 
+Implement encapsulation by using privateproperties and public methods to access them
+
+class Product {
+    private $name;
+    private $price;
+
+    public function __construct($name, $price) {
+        $this->name  = $name;
+        $this->price = $price;
+    }
+
+    public function getDetails() {
+        return "Product: $this->name, Price: $this->price";
+    }
+}
+
+class Category {
+    private $categoryName;
+
+    public function __construct($categoryName) {
+        $this->categoryName = $categoryName;
+    }
+
+    public function getCategory() {
+        return "Category: $this->categoryName";
+    }
+}
+
+class Order {
+    private $orderId;
+    private $product;
+
+    public function __construct($orderId, Product $product) {
+        $this->orderId = $orderId;
+        $this->product = $product;
+    }
+
+    public function getOrderDetails() {
+        return "Order ID: $this->orderId, " . $this->product->getDetails();
+    }
+}
+$product = new Product("Laptop", 50000);
+$category = new Category("Electronics");
+$order = new Order("ORD123", $product);
+
+echo $product->getDetails() . "<br>";
+echo $category->getCategory() . "<br>";
+echo $order->getOrderDetails() . "<br>";
+
+2. Create a class called Book with properties like title, author, and price. Implement a method to apply a discount to the book's price and return thenewprice.
+class Book {
+    private $title, $author, $price;
+
+    public function __construct($title, $author, $price) {
+        $this->title  = $title;
+        $this->author = $author;
+        $this->price  = $price;
+    }
+
+    public function applyDiscount($percent) {
+        return $this->price - ($this->price * $percent / 100);
+    }
+
+    public function getDetails() {
+        return "Title: $this->title, Author: $this->author, Price: $this->price";
+    }
+}
+$book = new Book("PHP Guide", "John Doe", 600);
+echo $book->getDetails() . "<br>";
+echo "Discounted Price: " . $book->applyDiscount(10) . "<br>";
+
+3. Instantiate an object of the Book class and demonstrate the usage of its methods. Create multiple instances of Book and display their details ina
+formatted manner.
+$book1 = new Book("Book One", "Author A", 500);
+$book2 = new Book("Book Two", "Author B", 800);
+
+echo $book1->getDetails() . "<br>";
+echo "Discounted Price: " . $book1->applyDiscount(10) . "<br><br>";
+
+echo $book2->getDetails() . "<br>";
+echo "Discounted Price: " . $book2->applyDiscount(20) . "<br>";
+
+4. Create a base class called Employee with properties like name and salary. Extend it with subclasses FullTimeEmployee and PartTimeEmployee, eachhaving specific methods to calculate bonuses.
+class Employee{
+protected $name,$salary;
+
+public function __construct($name,$salary){
+
+$this->name=$name;
+$this->salary=$salary;
+}
+
+}
+
+class FullTimeEmployee extends Employee{
+public function getBonus() {
+        return $this->salary * 0.2;
+    }
+}
+
+class PartTimeEmployee extends Employee {
+    public function getBonus() {
+        return $this->salary * 0.1;
+    }
+}
+$fullTime = new FullTimeEmployee("Rita", 50000);
+$partTime = new PartTimeEmployee("Aman", 20000);
+
+echo "Full-time Bonus: " . $fullTime->getBonus() . "<br>";
+echo "Part-time Bonus: " . $partTime->getBonus() . "<br>";
+
+Overloading
+5. Practical Exercise:
+o Create a Calculator class with a method calculate that can add, subtract, ormultiply based on the number and type of arguments passed.
+class Calculator {
+    public function calculate($a, $b, $op = 'add') {
+        switch ($op) {
+            case 'subtract': return $a - $b;
+            case 'multiply': return $a * $b;
+            default: return $a + $b;
+        }
+    }
+}
+
+$calc = new Calculator();
+echo "Add: " . $calc->calculate(5, 3) . "<br>";
+echo "Subtract: " . $calc->calculate(5, 3, 'subtract') . "<br>";
+echo "Multiply: " . $calc->calculate(5, 3, 'multiply') . "<br><br>";
+
+Abstraction Interface
+6. Practical Exercise:
+o Define an interface PaymentInterface with methods like processPayment(), refund(), and implement it in classes like CreditCardPayment and
+PaypalPayment.
+nterface PaymentInterface {
+    public function processPayment($amount);
+    public function refund($amount);
+}
+
+class CreditCardPayment implements PaymentInterface {
+    public function processPayment($amount) {
+        echo "Credit Card Payment of $amount processed.<br>";
+    }
+    public function refund($amount) {
+        echo "Credit Card Refund of $amount done.<br>";
+    }
+}
+
+class PaypalPayment implements PaymentInterface {
+    public function processPayment($amount) {
+        echo "PayPal Payment of $amount processed.<br>";
+    }
+    public function refund($amount) {
+        echo "PayPal Refund of $amount done.<br>";
+    }
+}
+
+$credit = new CreditCardPayment();
+$credit->processPayment(1000);
+$credit->refund(200);
+
+$paypal = new PaypalPayment();
+$paypal->processPayment(2000);
+$paypal->refund(500);
+
+Constructor
+7. Practical Exercise:
+o Create a class Student with properties like name, age, and grade. Use a constructor to initialize these properties and a method to display student
+details.
+class Student {
+    public $name, $age, $grade;
+
+    public function __construct($name, $age, $grade) {
+        $this->name = $name;
+        $this->age = $age;
+        $this->grade = $grade;
+    }
+
+    public function displayDetails() {
+        echo "Name: {$this->name}, Age: {$this->age}, Grade: {$this->grade}<br>";
+    }
+}
+
+$student = new Student("Ayansh", 8, "Grade 2");
+$student->displayDetails();
+echo "<br>";
+
+Destructor
+8. Practical Exercise:
+o Write a class that connects to a database, with a destructor that closes theconnection when the object is destroyed. Magic Methods
+class DBConnection {
+    public function __construct() {
+        echo "DB Connected<br>";
+    }
+    public function __destruct() {
+        echo "DB Connection Closed<br>";
+    }
+}
+
+$conn = new DBConnection();
+echo "<br>";
+
+9. Practical Exercise:
+o Create a class that uses the __set() and __get() magic methods to dynamically create and access properties based on user input.
+class MagicUser {
+    private $data = [];
+
+    public function __set($name, $value) {
+        $this->data[$name] = $value;
+    }
+
+    public function __get($name) {
+        return $this->data[$name] ?? null;
+    }
+}
+
+$user = new MagicUser();
+$user->email = "gargi@example.com";
+$user->role = "Admin";
+echo "Email: {$user->email}<br>";
+echo "Role: {$user->role}<br><br>";
+
+
+Visibility
+12. Practical Exercise:
+o Develop a class Account with properties for username (public), password(private), and accountBalance (protected). Demonstrate howto access theseproperties in a derived class.
+class Account {
+    public $username;
+    private $password;
+    protected $accountBalance;
+
+    public function __construct($u, $p, $b) {
+        $this->username = $u;
+        $this->password = $p;
+        $this->accountBalance = $b;
+    }
+
+    public function showUsername() {
+        echo "Username: {$this->username}<br>";
+    }
+}
+
+class BankAccount extends Account {
+    public function accessProtected() {
+        echo "Balance: {$this->accountBalance}<br>";
+    }
+}
+
+$account = new Account("gargi123", "secret123", 5000);
+$account->showUsername();
+
+$bank = new BankAccount("sumit", "pass456", 10000);
+$bank->accessProtected();
