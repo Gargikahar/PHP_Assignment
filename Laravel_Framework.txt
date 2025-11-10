@@ -1,0 +1,333 @@
+1. Introduction to Laravel
+
+Q: Write a detailed report on the history of Laravel. Include its versioning, key features, and how it differs from other PHP frameworks.
+Answer:
+Laravel created by Taylor Otwell in 2011.
+Versions: Laravel 8 → 9 → 10 → 11 (latest).
+Key features: MVC, Blade, Artisan, Eloquent ORM, Middleware, Routing, Authentication.
+Difference: Laravel has elegant syntax, built-in tools, and faster development than raw PHP or CodeIgniter.
+
+2. Laravel MVC Architecture
+Q: Explain the MVC (Model-View-Controller) architecture. Provide examples of how Laravel implements this architecture in web applications.
+Answer:
+Model: Handles database logic using Eloquent ORM.
+View: Displays data using Blade templates.
+Controller: Connects Model and View, processes user input.
+Example:
+Route → Controller → Model → View → Sends response back to browser.
+
+3. Routing in Laravel
+Q: Describe how routing works in Laravel. Explain the difference between named routes and route parameters with examples.
+Answer:
+Routing: Connects URL requests to controllers.
+Route::get('/home', [HomeController::class, 'index']);
+Named routes: Assigned names for easy linking:
+Route::get('/home', ...)->name('home');
+Route parameters: Dynamic data passing:
+Route::get('/user/{id}', function($id){ return $id; });
+
+4. Blade Templating Engine
+Q: Write an essay on the Blade templating engine in Laravel. Discuss its features, syntax, and how it enhances the development process.
+Answer:
+Blade: Laravel’s built-in templating engine.
+Syntax: {{ }} for variables, @if, @foreach, @extends, @section.
+Features: Template inheritance, reusable layout, clean HTML-PHP integration.
+Benefit: Reduces code repetition and speeds up front-end design.
+
+5. Database Migrations and Eloquent ORM
+Q: Explain the concept of database migrations in Laravel. Discuss how Eloquent ORM simplifies database interactions and provide examples of CRUD operations.
+Answer:
+Migrations: Track and manage database structure changes.
+Command: php artisan make:migration create_users_table.
+
+Eloquent ORM: Object-based interaction with database.
+CRUD Examples:
+User::create([]); → Insert
+User::find(1); → Read
+$user->update([]); → Update
+$user->delete(); → Delete
+
+6. Laravel Middleware
+Q: Define middleware in Laravel. Explain how middleware can be used for authentication, logging, and CORS handling.
+Answer:
+Middleware: Acts as a filter between request and response.
+Used for: Checking authentication, logging requests, enabling CORS.
+Example:
+Route::middleware('auth')->group(function(){ ... });
+Created using: php artisan make:middleware CheckUser.
+
+7. Laravel Authentication
+Q: Write a report on Laravel’s built-in authentication system. Explain how to set up user authentication and discuss the use of guards and providers.
+Answer:
+Laravel provides built-in Auth scaffolding (php artisan make:auth) or packages like Breeze/Fortify.
+Guards: Define how users are authenticated (e.g., web, api).
+Providers: Define where user data is fetched (e.g., users table).
+Setup in config/auth.php.
+
+8. Testing in Laravel
+Q: Discuss the importance of testing in web applications. Explain the testing tools available in Laravel and write a brief guide on how to write basic tests.
+Answer:
+Importance: Ensures app works correctly and prevents bugs.
+Tools: PHPUnit, Laravel Dusk for browser tests.
+Create test: php artisan make:test ExampleTest.
+Example:
+public function test_homepage_loads(){
+  $response = $this->get('/');
+  $response->assertStatus(200);
+}
+
+Practical:
+
+1. Setting Up a Laravel Project
+
+Task: Install Laravel and configure environment.
+Steps:
+
+Install Composer → https://getcomposer.org/download/
+
+Run in terminal:
+
+composer create-project laravel/laravel blog_project
+cd blog_project
+php artisan serve
+
+
+Open .env and set database connection:
+
+DB_DATABASE=blog
+DB_USERNAME=root
+DB_PASSWORD=
+
+
+Create DB in phpMyAdmin with name blog.
+Output: Laravel app runs on http://127.0.0.1:8000.
+
+2. Creating a Simple Blog (CRUD)
+
+Task: Create, read, update, and delete blog posts.
+Steps:
+
+Create migration & model:
+
+php artisan make:model Post -m
+
+
+Migration example:
+
+$table->string('title');
+$table->text('content');
+
+
+Run migration: php artisan migrate
+
+Create controller:
+
+php artisan make:controller PostController --resource
+
+
+Add routes:
+
+Route::resource('posts', PostController::class);
+
+
+Create Blade views: resources/views/posts/
+
+index.blade.php, create.blade.php, edit.blade.php, show.blade.php
+
+Use Eloquent in controller for CRUD logic.
+
+Output: Blog system with post add/edit/delete/view.
+
+3. User Registration & Authentication
+
+Task: Add user login/register system.
+Steps:
+
+Install Laravel Breeze (simple auth):
+
+composer require laravel/breeze --dev
+php artisan breeze:install
+npm install && npm run dev
+php artisan migrate
+
+
+Run: php artisan serve
+
+Register user → verify email (use Mailtrap or Gmail SMTP).
+
+After login, redirect to dashboard showing user info:
+
+Auth::user()->name;
+
+
+Output: User can register, verify email, and log in.
+
+4. Form Validation
+
+Task: Create a contact form with validation.
+Steps:
+
+Create controller:
+
+php artisan make:controller ContactController
+
+
+Add route:
+
+Route::get('/contact', [ContactController::class, 'create']);
+Route::post('/contact', [ContactController::class, 'store']);
+
+
+Validation example:
+
+$request->validate([
+    'name' => 'required',
+    'email' => 'required|email',
+    'message' => 'required'
+]);
+
+
+Display errors in Blade:
+
+@error('name')
+  <span class="text-danger">{{ $message }}</span>
+@enderror
+
+
+Output: Validated contact form with error messages.
+
+5. RESTful API Development
+
+Task: Create Product API.
+Steps:
+
+Create model + migration:
+
+php artisan make:model Product -m
+
+
+Create controller:
+
+php artisan make:controller Api/ProductController --api
+
+
+Routes in routes/api.php:
+
+Route::apiResource('products', ProductController::class);
+
+
+Test using Postman → send GET/POST/PUT/DELETE requests.
+
+Output: Working product CRUD API.
+
+6. Using Laravel Middleware
+
+Task: Restrict admin routes.
+Steps:
+
+Create middleware:
+
+php artisan make:middleware IsAdmin
+
+
+Add logic:
+
+if (auth()->user()->role != 'admin') {
+    return redirect('home');
+}
+
+
+Register in Kernel.php and apply to routes:
+
+Route::middleware('isAdmin')->group(function () {
+    Route::resource('posts', PostController::class);
+});
+
+
+Output: Only admins can access restricted pages.
+
+7. Laravel Notifications
+
+Task: Send email when new blog post created.
+Steps:
+
+Create notification:
+
+php artisan make:notification NewPostNotification
+
+
+In PostController@store, trigger:
+
+Notification::route('mail', 'user@example.com')
+    ->notify(new NewPostNotification($post));
+
+
+Setup queue in .env:
+
+QUEUE_CONNECTION=database
+
+
+Output: Email sent when a new post is published.
+
+8. Integrating Payment Gateway
+
+Task: Add payment feature using Stripe.
+Steps:
+
+Install Stripe:
+
+composer require stripe/stripe-php
+
+
+Create route/controller for payment.
+
+In controller:
+
+\Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+
+
+Handle success/failure view pages.
+
+Output: User can make payment/donation.
+
+9. CRUD Using Resource Controller (Category)
+
+Task: Category management.
+Steps:
+
+Create model & controller:
+
+php artisan make:model Category -m
+php artisan make:controller CategoryController --resource
+
+
+Add routes:
+
+Route::resource('categories', CategoryController::class);
+
+
+Create Blade views for add/edit categories.
+
+Output: Category CRUD fully functional.
+
+10. Deployment of Laravel Application
+
+Task: Host Laravel app.
+Steps:
+
+Upload all files to hosting (or use GitHub → deploy via Heroku).
+
+Set .env on server:
+
+Database credentials
+
+APP_ENV=production
+
+Run:
+
+php artisan migrate --force
+php artisan config:cache
+php artisan route:cache
+
+
+Output: Live Laravel app on hosting.
